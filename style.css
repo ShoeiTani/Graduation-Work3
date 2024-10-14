@@ -1,0 +1,19 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    margin: 20px;
+}
+
+input[type="file"] {
+    margin: 20px;
+}
+
+video, canvas {
+    margin-top: 20px;
+    border: 1px solid black;
+}
