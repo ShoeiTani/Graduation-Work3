@@ -65,8 +65,29 @@ function drawSkeleton(keypoints) {
 
 // ポーズを描画する関数
 function drawPose(pose) {
+    // Canvasをクリア
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    // アスペクト比を維持してビデオを描画
+    const videoAspectRatio = video.videoWidth / video.videoHeight;
+    const canvasAspectRatio = canvas.width / canvas.height;
+
+    let drawWidth, drawHeight;
+    if (videoAspectRatio > canvasAspectRatio) {
+        // キャンバスに合わせて幅を設定し、高さを調整
+        drawWidth = canvas.width;
+        drawHeight = canvas.width / videoAspectRatio;
+    } else {
+        // キャンバスに合わせて高さを設定し、幅を調整
+        drawHeight = canvas.height;
+        drawWidth = canvas.height * videoAspectRatio;
+    }
+
+    const offsetX = (canvas.width - drawWidth) / 2;
+    const offsetY = (canvas.height - drawHeight) / 2;
+
+    // キャンバスにビデオをアスペクト比を維持して描画
+    ctx.drawImage(video, offsetX, offsetY, drawWidth, drawHeight);
 
     const keypoints = pose.keypoints;
     drawKeypoints(keypoints);
