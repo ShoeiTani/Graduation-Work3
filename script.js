@@ -91,5 +91,11 @@ async function main() {
 
 // 動画のメタデータが読み込まれたらポーズ検出開始
 video.onloadedmetadata = () => {
+    // ビデオのアスペクト比に基づいてCanvasサイズを調整
+    const aspectRatio = video.videoWidth / video.videoHeight;
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    // ポーズ検出開始
     main();
 };
