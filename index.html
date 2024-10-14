@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Pose Estimation</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Upload Video for Pose Estimation</h1>
+    
+    <!-- ファイルをアップロードするためのフォーム -->
+    <input type="file" id="fileInput" accept="video/*">
+    
+    <!-- アップロードされたビデオを表示 -->
+    <video id="video" width="640" height="480" controls></video>
+    
+    <!-- PoseNetの結果を描画するキャンバス -->
+    <canvas id="output" width="640" height="480"></canvas>
+
+    <!-- TensorFlow.jsとPoseNetライブラリの読み込み -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
+    
+    <!-- JavaScriptファイルの読み込み -->
+    <script src="script.js"></script>
+</body>
+</html>
