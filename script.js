@@ -34,12 +34,12 @@ async function detectPose(net) {
 }
 
 // キーポイントを描画する
-function drawKeypoints(keypoints) {
+function drawKeypoints(keypoints, scaleX, scaleY, offsetX, offsetY) {
     keypoints.forEach((keypoint) => {
         if (keypoint.score > 0.6) {
             const { x, y } = keypoint.position;
             ctx.beginPath();
-            ctx.arc(x, y, 5, 0, 2 * Math.PI);
+            ctx.arc(x * scaleX + offsetX, y * scaleY + offsetY, 5, 0, 2 * Math.PI);
             ctx.fillStyle = 'red';
             ctx.fill();
         }
@@ -47,15 +47,15 @@ function drawKeypoints(keypoints) {
 }
 
 // 骨格を描画する
-function drawSkeleton(keypoints) {
+function drawSkeleton(keypoints, scaleX, scaleY, offsetX, offsetY) {
     adjacentKeyPoints.forEach(([i, j]) => {
         const pointA = keypoints[i];
         const pointB = keypoints[j];
 
         if (pointA.score > 0.6 && pointB.score > 0.6) {
             ctx.beginPath();
-            ctx.moveTo(pointA.position.x, pointA.position.y);
-            ctx.lineTo(pointB.position.x, pointB.position.y);
+            ctx.moveTo(pointA.position.x * scaleX + offsetX, pointA.position.y * scaleY + offsetY);
+            ctx.lineTo(pointB.position.x * scaleX + offsetX, pointB.position.y * scaleY + offsetY);
             ctx.strokeStyle = 'blue';
             ctx.lineWidth = 2;
             ctx.stroke();
@@ -89,9 +89,13 @@ function drawPose(pose) {
     // キャンバスにビデオをアスペクト比を維持して描画
     ctx.drawImage(video, offsetX, offsetY, drawWidth, drawHeight);
 
+    // スケールとオフセットを用いてキーポイントと骨格を描画
     const keypoints = pose.keypoints;
-    drawKeypoints(keypoints);
-    drawSkeleton(keypoints);
+    const scaleX = drawWidth / video.videoWidth;
+    const scaleY = drawHeight / video.videoHeight;
+
+    drawKeypoints(keypoints, scaleX, scaleY, offsetX, offsetY);
+    drawSkeleton(keypoints, scaleX, scaleY, offsetX, offsetY);
 }
 
 // メイン処理
